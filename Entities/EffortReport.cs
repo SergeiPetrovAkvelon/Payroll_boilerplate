@@ -1,9 +1,11 @@
-﻿using Payroll.Application.Enums;
+﻿using Payroll.Application.Interfaces;
 
 namespace Payroll.Entities
 {
     public class EffortReport
     {
+        private ICalculateStrategy calculateStrategy;
+
         /// <summary>
         /// Unique identifier of the employee.
         /// </summary>
@@ -17,10 +19,6 @@ namespace Payroll.Entities
         /// </summary>
         public decimal Payment { get; set; }
         /// <summary>
-        /// Type of employees.
-        /// </summary>
-        public EmployeesType EmployeeType { get; set; }
-        /// <summary>
         /// Salary of the employee.
         /// </summary>
         public decimal Salary
@@ -30,18 +28,28 @@ namespace Payroll.Entities
                 return Payment * EffortTime;
             }
         }
-/// <summary>
-/// Calculate the payment rate.
-/// </summary>
-/// <returns></returns>
-        public string CalculatePaymentRate()
+
+        public EffortReport(ICalculateStrategy calculateStrategy)
         {
-            return $"{Payment} {(EmployeeType == EmployeesType.Hourly ? "$ / hour" : "$ / month")}";
+            this.calculateStrategy = calculateStrategy;
         }
 
+        /// <summary>
+        /// Calculate the payment rate.
+        /// </summary>
+        /// <returns></returns>
+        public string CalculatePaymentRate()
+        {
+            return calculateStrategy.CalculatePaymentRate(Payment);
+        }
+
+        /// <summary>
+        /// Calculate the effort.
+        /// </summary>
+        /// <returns></returns>
         public string CalculateEffort()
         {
-            return $"{EffortTime} {(EmployeeType == EmployeesType.Hourly ? "hours" : "months")}";
+            return calculateStrategy.CalculateEffort(EffortTime);
         }
     }
 }

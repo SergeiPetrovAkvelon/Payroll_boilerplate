@@ -1,4 +1,6 @@
-﻿namespace Payroll.Entities
+﻿using Payroll.Application.Interfaces;
+
+namespace Payroll.Entities
 {
     public class Employee
     {

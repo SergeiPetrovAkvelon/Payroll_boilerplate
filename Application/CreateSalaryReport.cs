@@ -1,5 +1,4 @@
-﻿using Payroll.Application.Enums;
-using Payroll.Application.Interfaces;
+﻿using Payroll.Application.Interfaces;
 using Payroll.Entities;
 
 namespace Payroll.Application
